@@ -1,7 +1,7 @@
 all:
-	nasm -f bin boot_sec_main.s -o boot.bin
-	qemu-system-x86_64 boot.bin
-
-c_test:
-	gcc -ffreestanding -c main.c -o main.o
-	ld -o main.bin -Ttext 0x0 --oformat binary main.o
+	nasm kernel_entry.s -f elf -o boot.o
+	gcc -ffreestanding -c kernel.c -o kernel.o
+	ld -o kernel.bin -Ttext 0x1000 kernel_entry.o kernel.o --oformat binary
+	nasm bootsect.s -f bin -o bootsect.bin
+	cat bootsect.bin kernel.bin > os-image.bin
+	qemu-system-x86_64 os-image.bin
