@@ -1,4 +1,4 @@
-all:
+clean:
 	mkdir build
 
 	gcc -ffreestanding -c kernel/kernel.c -o build/kernel.o
@@ -8,11 +8,7 @@ all:
 	cat build/bootsect.bin build/kernel.bin > build/os-image.bin
 	qemu-system-x86_64 -fda build/os-image.bin
 
-	make clear
-
-
-clear:
-	rm build/*.bin, build/*.o
+	rm build/*.bin build/*.o
 	rmdir build
 
 
